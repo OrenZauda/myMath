@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import javax.management.RuntimeErrorException;
 
+
 /**
  * This class represents a simple "Monom" of shape a*x^b, where a is a real
  * number and a is an integer (summed a none negative), see:
@@ -124,13 +125,30 @@ public class Monom implements function {
 	 */
 
 	public String toString() {
-		String t;
-		if (_power > 1) {
+		String t="";
+		//Monom in form "3x^2"
+		if (_power > 1&&_coefficient!=1) {
 			t = _coefficient + "x^" + _power;
-		} else if (_power == 1) {
+			//Monom in form "3x"
+		}
+		if (_power == 1&&_coefficient!=1) {
 			t = _coefficient + "x";
-		} else {
-			t = "" + _coefficient;
+		}
+		// Monom in form "x^6"
+		if (_power > 1&&_coefficient==1) {
+			t = "x^" + _power;
+		}
+		// Monom "X"
+		if(_power==1&&_coefficient==1) {
+		t="x";	
+		}
+		// Monom such "3"
+		if(_power==0&&_coefficient!=0) {
+		t=""+_coefficient;
+		}
+		//Monom 0
+		if(_power==0&&_coefficient==0) {
+			t="0";
 		}
 		return t;
 	}
@@ -153,7 +171,7 @@ public class Monom implements function {
 		// convert the string to char array
 		char array[]=s.toCharArray();
 		//first case, the string form is like "3x^2"
-		if (s.contains("^")) {
+		if (s.contains("^")&&!s.contains("-x")&&s.indexOf('x')!=0) {
 			// if so, find the x index and insert value of coefficient and power
 			for(int i=0;i<s.length();i++) {
 				if (s.charAt(i)=='x') {
@@ -161,9 +179,9 @@ public class Monom implements function {
 					this._power=Integer.parseInt(s.substring(i+2));
 				}
 			}
-		}    
+		}   
 		//second case, the string form is like "3x"
-		if(s.contains("x")&&!s.contains("^")) {
+		if(s.contains("x")&&!s.contains("^")&&!s.contains("-x")&&s.indexOf('x')!=0) {
 			for(int i=0;i<s.length();i++) {
 				if (s.charAt(i)=='x') {
 					this._coefficient=Double.parseDouble(s.substring(0, i));
@@ -174,8 +192,36 @@ public class Monom implements function {
 		}
 		// third and last case, the string form is like "4"
 		if(!s.contains("x")&&!s.equals("")) {
-		this._coefficient=Double.parseDouble(s);
+			this._coefficient=Double.parseDouble(s);
 		}
+		//fourth case, the _coefficient is 1 like "x^6"
+		if(s.indexOf('x')==0&&s.contains("^")) {
+			this._coefficient=1;			
+			this._power=Integer.parseInt(s.substring(2));
+
+		}
+		//fifth case, the _coefficient is -1 like "-x^6"
+		if(s.contains("-x")&&s.contains("^")) {
+			this._coefficient=-1;
+			for(int i=0;i<s.length();i++) {
+				if (s.charAt(i)=='x') {
+					this._power=Integer.parseInt(s.substring(i+2));
+				}
+			}
+		}
+		//case sixth, Monom  "x"
+		if(s.indexOf('x')==0&&!s.contains("^")) {
+			this._coefficient=1;
+			this._power=1;
+		}
+		//case seventh, Monom  "-x"
+		if (s.equals("-x")) {
+			this._coefficient=-1;
+			this._power=1;
+		}
+
+
+
 	}
 
 
@@ -243,9 +289,12 @@ public class Monom implements function {
 		 * System.out.println(t.Equal(c));
 		 */
 		// checking function toString-clear!
+        Monom a= new Monom (4,2);
+        a.derivative();
+        System.out.println(a.toString());
+        
 
-		
-	
+
 
 	}
 }

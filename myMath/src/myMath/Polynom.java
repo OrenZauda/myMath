@@ -629,8 +629,10 @@ public class Polynom implements Polynom_able {
 
 		System.out.println(s.Blockedarea(-4, 4, 0.01));
 		 */
-		Polynom b=new Polynom("-4x^2-3x+555");
-        System.out.println(b.toString());
-	}
-
+		Monom b= new Monom("3x");
+		System.out.println(b.toString());
+		b.derivative();
+		System.out.println(b);
+		
+}
 }
