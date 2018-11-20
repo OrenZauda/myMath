@@ -6,6 +6,7 @@ import java.util.Iterator;
 import javax.management.RuntimeErrorException;
 
 
+
 /**
  * This class represents a simple "Monom" of shape a*x^b, where a is a real
  * number and a is an integer (summed a none negative), see:
@@ -127,29 +128,40 @@ public class Monom implements function {
 	public String toString() {
 		String t="";
 		//Monom in form "3x^2"
-		if (_power > 1&&_coefficient!=1) {
+		if (_power > 1&&_coefficient>0) {
 			t = _coefficient + "x^" + _power;
+
 			//Monom in form "3x"
 		}
-		if (_power == 1&&_coefficient!=1) {
+		if (_power == 1&&_coefficient>1) {
 			t = _coefficient + "x";
 		}
 		// Monom in form "x^6"
 		if (_power > 1&&_coefficient==1) {
 			t = "x^" + _power;
 		}
+		// Monom in form "-x^6"
+		if (_power > 1&&_coefficient==-1) {
+			t = "-x^" + _power;
+		}
 		// Monom "X"
 		if(_power==1&&_coefficient==1) {
-		t="x";	
+			t="x";	
 		}
-		// Monom such "3"
+		// Monom such "3" or "-3"
 		if(_power==0&&_coefficient!=0) {
-		t=""+_coefficient;
+			t=""+_coefficient;
 		}
+		
 		//Monom 0
 		if(_power==0&&_coefficient==0) {
 			t="0";
 		}
+		//Monom -x
+		if(_coefficient==-1&&_power==1) {
+			t="-x";
+		}
+
 		return t;
 	}
 
@@ -165,8 +177,9 @@ public class Monom implements function {
 			throw new RuntimeErrorException(null, "Eror wrong value of power");
 		}
 		//edge case, empty string
-		if(s=="") {
-			return;
+		if(s.equals("0")||s.equals("")||s.equals("0x")||s.equals("0x^0")) {
+			this._coefficient=0;
+			this._power=0;
 		}
 		// convert the string to char array
 		char array[]=s.toCharArray();
@@ -289,10 +302,10 @@ public class Monom implements function {
 		 * System.out.println(t.Equal(c));
 		 */
 		// checking function toString-clear!
-        Monom a= new Monom (4,2);
-        a.derivative();
-        System.out.println(a.toString());
-        
+		Monom a= new Monom (4,2);
+		a.derivative();
+		System.out.println(a.toString());
+
 
 
 
