@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 
 class PolynomTest {
 
-
+	
 	@Test
-	void testPolynomString() {
-		Polynom a= new Polynom("-x^6-3x-8");
+	void testPolynomString() { 
+		
+		Polynom a= new Polynom("-x^6+3x-8");
 		System.out.println(a.toString());
 		Polynom b= new Polynom("77");
 		System.out.println(b.toString());
@@ -21,6 +22,11 @@ class PolynomTest {
 		System.out.println(e.toString());
 		Polynom f= new Polynom("-x");
 		System.out.println(f.toString());
+		Polynom g=new Polynom("0");
+		System.out.println(g.toString());
+		Polynom h= new Polynom("x^6+3x-8");
+		System.out.println(h.toString());
+
 	}
 
 
@@ -36,17 +42,17 @@ class PolynomTest {
 
 	}
 
+		 
+		@Test
+		void testAddPolynom_able() {
+			Polynom a= new Polynom("-x^6-8");
+			Polynom b= new Polynom("x+6");
+			a.add(b);
+			System.out.println(a.toString());
+		}
 
-	@Test
-	void testAddPolynom_able() {
-		Polynom a= new Polynom("-x^6-3x-8");
-		Polynom b= new Polynom("x");
-		a.add(b);
-		System.out.println(a.toString());
-	}
 
-
-
+		
 	@Test
 	void testAddMonom() {
 		Monom a=new Monom (3,6);
@@ -80,6 +86,8 @@ class PolynomTest {
 		Polynom c=new Polynom ("4x");
 		System.out.println(a.equals(b));
 		System.out.println(a.equals(c));
+
+
 
 	}
 
@@ -144,15 +152,15 @@ class PolynomTest {
 		System.out.println(a.toString());
 	}
 
-	@Test
+	@Test 
 	void testBlockedarea() {
 		Polynom s = new Polynom();
 		s.add(new Monom(1, 3));
 		s.add(new Monom(-9, 1));
 		System.out.println(s.Blockedarea(-4, 4, 0.01));
 
-	}
-
-
+	 }
 
 }
+	
+
